@@ -4,4 +4,4 @@ This project makes a playable version of the Simon Game as a web application. Th
 
 ## Motivation
 
-I completed this project to practice my coding skills, and completing the user stories specified in Free Code Camp.
+I completed this project to practice my coding skills and to complete the user stories specified in Free Code Camp.
