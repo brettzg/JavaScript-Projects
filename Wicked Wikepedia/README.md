@@ -4,7 +4,7 @@ This is a project that allows the user to search any word or phrase. The softwar
 
 ## Motivation
 
-I completed this project to practice my coding skills, and completing the user stories specified in Free Code Camp.
+I completed this project to practice my coding skills and to complete the user stories specified in Free Code Camp.
 
 ## API Reference
 
