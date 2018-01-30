@@ -1,0 +1,209 @@
+@import url('https://fonts.googleapis.com/css?family=Alfa+Slab+One|VT323|Oswald');
+
+button:focus {outline:0;}
+
+body {
+    background-color: bisque;
+}
+
+#board {
+    width: 450px;
+    height: 450px;
+    background-color: dimgray;
+    border-radius: 50%;
+    position: absolute;
+    top: 25%;
+    left: 35%;
+    margin-top: -50px;
+    margin-left: -50px;
+    -moz-box-shadow: 0 0 10px black;
+    -webkit-box-shadow: 0 0 10px black;
+    box-shadow: 0 0 10px black;
+    z-index: 1;
+}
+
+#inner-circle {
+    width: 60%;
+    margin: 0 auto;
+    border-radius: 50%;
+    background-color: azure;
+    height: 60%;
+    left: 25%;
+    top: 20%;
+    transform: translateX(-10%);
+    border: 20px solid dimgray;
+    z-index: 3;
+    position: absolute;
+}
+
+#simon-name {
+    font-family: 'Alfa Slab One';
+    font-size: 50px;
+    margin-top: 20%;
+    margin-left: -7px;
+}
+
+#rights-reserved {
+    margin-top: -56px;
+    font-size: 20px;
+    margin-left: 164px;
+}
+
+#score-div {
+    background-color: dimgray;
+    width: 30%;
+    height: 40px;
+    border-radius: 11px;
+    margin-left: 30px;
+    margin-top: 10px;
+}
+
+#inner-score-div {
+    width: 90%;
+    height: 90%;
+    margin-top: 2.5%;
+    margin-left: 5%;
+    background-color: darkred;
+    opacity: .2;
+     border-radius: 11px;
+}
+
+#start-button {
+    height: 28px;
+    width: 25px;
+    border-radius: 50%;
+    border: 3px solid dimgray;
+    margin-top: 16px;
+    margin-left: 20px;
+    background-color: orangered;
+    box-shadow: 0px 0px 3px black;
+    position: relative;
+    top: 0px;
+    transition: all ease 0.3s;
+    cursor: pointer;
+}
+
+#start-button:active {
+  top: 3px;
+    box-shadow: none;
+}
+
+#strict-light {
+    background-color: black;
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    border: black 2px solid;
+    margin-left: -20px;
+    
+}
+
+#strict-button {
+    height: 28px;
+    width: 25px;
+    border-radius: 50%;
+    border: 3px solid dimgray;
+    margin-top: 16px;
+    margin-left: 20px;
+    background-color: yellow;
+    box-shadow: 0px 0px 3px black;
+    position: relative;
+    top: 0px;
+    cursor: pointer;
+    transition: all ease 0.3s;
+}
+
+#strict-button:active {
+  top: 3px;
+    box-shadow: none;
+}
+
+.labels {
+    font-family: Arial Narrow, sans-serif;
+    margin-top: 0px;
+    font-size: 13px;
+}
+
+#count-label {
+   margin-left: 53px; 
+}
+
+#start-label {
+    margin-left: 51px; 
+}
+
+#strict-label {
+    margin-left: 26px; 
+    
+}
+
+#off-label {
+    margin-left: 80px;
+}
+
+#on-off-div {
+    width: 40px;
+    height: 22px;
+    background-color: black;
+    margin: 0 5px;
+    cursor: pointer;
+}
+#on-off-switch {
+    background-color: deepskyblue;
+    width: 16px;
+    height: 16px;
+    position: absolute;
+    margin-top: 3px;
+    margin-left: 3px;    
+}
+
+.btn {
+    outline: none !important;
+}
+
+.quarter {
+	position:absolute;
+	width:50%;
+	height:50%;
+    border: 15px solid dimgray;
+    cursor: pointer;
+}
+#quarter1 {
+	top:0;
+	left:0;
+    background-color: #3bf21f;
+	background-color:#529947;
+	border-radius:100% 0 0 0;
+}
+#quarter2 {
+	top:0;
+	right:0;
+    background-color: #ea2a2a;
+	background-color:#a83c3c;
+	border-radius:0 100% 0 0 ;
+}
+#quarter3 {
+	bottom:0;
+	left:0;
+    background-color: #faff49;
+	background-color:#a7aa3d;
+	border-radius:0 0 0 100%;
+}
+#quarter4 {
+	bottom:0;
+	right:0;
+    background-color: #3d8aff;
+	background-color:#3b567f;
+	border-radius:0 0 100% 0 ;
+}
+
+#score-label {
+    color: red;
+    z-index: 6;
+    opacity: .2;
+    font-size: 20px;
+    font-weight: 800;
+    margin-top: -34px;
+    margin-left: -10px;
+    position: absolute;
+}

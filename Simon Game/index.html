@@ -1,0 +1,445 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+        <meta name="description" content="">
+        <meta name="author" content="">
+        <link rel="icon" href="">
+
+        <title>Simon Game</title>
+
+        <!-- Bootstrap core CSS -->
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.3/css/bootstrap.min.css" integrity="sha384-Zug+QiDoJOrZ5t4lssLdxGhVrurbmBWopoEl+M6BdEfwnCJZtKxi1KgxUyJq13dy" crossorigin="anonymous">
+
+        <link rel="stylesheet" href="style.css">
+    </head>
+
+    <body>
+
+        <div class="container">
+
+            <div id="board" class="text-center">
+
+
+                <div id="inner-circle">
+                    <div class="row">
+                        <div class="col-1"></div>
+                        <div class="col-9"><h1 id="simon-name" >Simon</h1><p id="rights-reserved">&#174;</p></div>                
+                    </div>
+
+                    <div class="row">
+                        <div id="score-div"><div id="inner-score-div"></div><label id="score-label">- -</label></div>    
+                        <button class="btn btn-success" id="start-button"></button>  
+                        <button class="btn btn-danger" id="strict-button"></button>
+                        <div id="strict-light"></div>
+                    </div>
+                    <div class="row">
+                        <p class="labels" id="count-label">Count</p>
+                        <p class="labels" id="start-label">Start</p>
+                        <p class="labels" id="strict-label">Strict</p>
+                    </div>
+                    <div class="row">
+                        <p id="off-label">OFF</p>
+                        <div id="on-off-div">
+                            <div id="on-off-switch"></div>
+                        </div>
+                        <p>ON</p>
+                    </div>
+
+                </div>
+                <div id="quarter1"class="quarter"></div>
+                <div id="quarter2"class="quarter"></div>
+                <div id="quarter3"class="quarter"></div>
+                <div id="quarter4"class="quarter"></div>
+
+            </div>
+
+
+
+
+
+
+        </div>
+        <!-- /.container -->
+
+
+        <!-- Bootstrap core JavaScript
+================================================== -->
+        <!-- Placed at the end of the document so the pages load faster -->
+        <script src="jquery-3.2.1.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.3/js/bootstrap.min.js" integrity="sha384-a5N7Y/aK3qNeh15eJKGWxsqtnX/wWdSZSKp+81YjTmS15nvnvxKHuzaWwXHDli+4" crossorigin="anonymous"></script>
+
+        <script>
+            //variables
+            var onOff=false;
+            var strictOn = false;
+            var gameStarted = false;
+            var playerTurn = false;
+            var audio1 = new Audio('https://s3.amazonaws.com/freecodecamp/simonSound1.mp3');
+            var audio2 = new Audio('https://s3.amazonaws.com/freecodecamp/simonSound2.mp3');
+            var audio3 = new Audio('https://s3.amazonaws.com/freecodecamp/simonSound3.mp3');
+            var audio4 = new Audio('https://s3.amazonaws.com/freecodecamp/simonSound4.mp3');
+            var loseSound = new Audio('Mortar.mp3');
+            var winSound = new Audio('TaDa.mp3');
+
+            //multiple because we have several run simotaneously and set up here to turn off when off button is pressed
+            var interval;
+            var interval2;
+            var myTimeout1;
+            var myTimeout2;
+            var myTimeout3;
+            var myTimeout4;
+            var myTimeout5;
+            var myTimeout6;
+            var internalSequence = [];
+            var turnTemp =[];
+
+            //onload
+            $( document ).ready(function() {
+
+            });
+
+            //on-off click
+            $( "#on-off-div" ).click(function() {
+                if (!onOff) {
+                    $( "#on-off-switch" ).animate({left: "+=18",}, 400);
+                    $("#score-label").css("opacity",'1');
+                    onOff=true;
+                } else {
+                    //reset variables
+                    onOff =false;
+                    strictOn=false;
+                    gameStarted=false;                    
+                    internalSequence =[];
+                    //reset GUI
+                    $( "#on-off-switch" ).animate({left: "-=18",}, 400);
+                    $("#score-label").css("opacity",'.2');
+                    $("#score-label").text("- -");
+                    audio1.pause();
+                    audio1.currentTime =0;
+                    audio2.pause();
+                    audio2.currentTime =0;
+                    audio3.pause();
+                    audio3.currentTime =0;
+                    audio4.pause();
+                    audio4.currentTime =0;
+                    $("#quarter1").css('background-color', '#529947');
+                    $("#quarter2").css('background-color', '#a83c3c');
+                    $("#quarter3").css('background-color', '#a7aa3d');
+                    $("#quarter4").css('background-color', '#3b567f');
+                    clearInterval(interval);
+                    clearInterval(interval2);
+                    clearTimeout(myTimeout1);
+                    clearTimeout(myTimeout2);
+                    clearTimeout(myTimeout3);
+                    clearTimeout(myTimeout4);
+                    clearTimeout(myTimeout5);
+                    clearTimeout(myTimeout6);                    
+                }
+            });
+
+            $("#strict-button").click(function() {
+                if (onOff) {
+                    if (strictOn===false) {
+                        $("#strict-light").css("background-color", "red");
+                        strictOn=true;
+                    } else {
+                        $("#strict-light").css("background-color", "black");
+                        strictOn=false;
+                    }
+                }
+            });
+
+            $("#start-button").click(function() {
+                if (onOff) {
+                    //reset variables
+                    internalSequence =[];
+                    //reset GUI
+                    $("#score-label").text("- -");
+                    audio1.pause();
+                    audio1.currentTime =0;
+                    audio2.pause();
+                    audio2.currentTime =0;
+                    audio3.pause();
+                    audio3.currentTime =0;
+                    audio4.pause();
+                    audio4.currentTime =0;
+                    $("#quarter1").css('background-color', '#529947');
+                    $("#quarter2").css('background-color', '#a83c3c');
+                    $("#quarter3").css('background-color', '#a7aa3d');
+                    $("#quarter4").css('background-color', '#3b567f');
+                    clearInterval(interval);
+                    clearInterval(interval2);
+                    clearTimeout(myTimeout1);
+                    clearTimeout(myTimeout2);
+                    clearTimeout(myTimeout3);
+                    clearTimeout(myTimeout4);
+                    clearTimeout(myTimeout5);
+                    clearTimeout(myTimeout6);  
+                    //go in circle
+                    gameStarted=true;
+                    var playTimer =300;
+                    var waitBetweenPlays = 305;
+                    var tempSequence =[0,1,3,2,0,1,3,2];
+                    var timeToStopInterval = tempSequence.length * waitBetweenPlays;
+
+                    interval= setInterval(function() {
+                        activateColor(tempSequence[0],playTimer);
+                        tempSequence.shift();
+                    }, waitBetweenPlays);
+
+                    myTimeout1 = setTimeout(function() {
+                        clearInterval(interval); 
+                        tempSequence =[];
+                        activateColor(0, 500);
+                        activateColor(1, 500);
+                        activateColor(2, 500);
+                        activateColor(3, 500);
+                    }, timeToStopInterval + 303);
+
+                    myTimeout6 = setTimeout(function() {
+                        activateColor(0, 500);
+                        activateColor(1, 500);
+                        activateColor(2, 500);
+                        activateColor(3, 500);
+                        addToSequence();
+                        initializeTurnArray();
+                        playSequence();
+                    }, timeToStopInterval + 1003); 
+                }
+            });
+
+            $("#quarter1").click(function() {
+                if (onOff && gameStarted && playerTurn) {
+                    showQuarterClick(0); 
+                    checkQuarterClick(0);
+                }
+            });
+            $("#quarter2").click(function() {
+                if (onOff && gameStarted && playerTurn) {
+                    showQuarterClick(1); 
+                    checkQuarterClick(1);
+                }
+            });
+            $("#quarter3").click(function() {
+                if (onOff && gameStarted && playerTurn) {
+                    showQuarterClick(2); 
+                    checkQuarterClick(2);
+                }
+            });
+            $("#quarter4").click(function() {
+                if (onOff && gameStarted && playerTurn) {
+                    showQuarterClick(3); 
+                    checkQuarterClick(3);
+                }
+            });
+
+            function checkQuarterClick(quarterClicked) {
+
+                //right click
+                if (quarterClicked ===turnTemp[0]) {
+                    turnTemp.shift();
+                    if (turnTemp.length ===0) {
+                        //game won
+                        if (internalSequence.length ===15) {
+                            winSound.play();
+                            $('#score-label').css("margin-left", "-=10px");
+                            $('#score-label').text("WIN");
+                            interval2= setInterval(function() {
+                                var currentOpacity = $("#score-label").css("opacity");
+                                if (currentOpacity ==='1') {
+                                    $("#score-label").css("opacity",".2");
+                                } else {
+                                    $("#score-label").css("opacity","1");
+                                }
+                            }, 300);
+                            myTimeout6 = setTimeout(function() {
+                                clearInterval(interval2);
+                                internalSequence = [];
+                                addToSequence();
+                                $("#score-label").css("opacity","1");
+                                playSequence();
+                                initializeTurnArray();
+                                $('#score-label').css("margin-left", "+=10px");
+                            }, 1300); 
+                        } 
+                        //otherwise, next round
+                        else {
+                            playerTurn =false;
+                            addToSequence();
+                            playSequence();
+                            initializeTurnArray();
+                        }
+                    }
+                } 
+                //wrong click
+                else {
+                    if (strictOn) {
+                        internalSequence=[];
+                        addToSequence();
+                    }
+                    loseSound.play();
+                    playerTurn =false;
+                    initializeTurnArray();
+                    $('#score-label').text("! !");
+                    interval2= setInterval(function() {
+                        var currentOpacity = $("#score-label").css("opacity");
+                        if (currentOpacity ==='1') {
+                            $("#score-label").css("opacity",".2");
+                        } else {
+                            $("#score-label").css("opacity","1");
+                        }
+                    }, 300);
+                    myTimeout6 = setTimeout(function() {
+                        clearInterval(interval2);
+                        $("#score-label").css("opacity","1");
+                        playSequence();
+                    }, 1300); 
+                }
+            }
+
+            //used to update count ui
+            function updateCount() {
+                var count = internalSequence.length;
+                var countString;
+                if (count <10) {
+                    countString = '0' + count;
+                } else {
+                    countString = count;
+                }
+                $('#score-label').text(countString);
+            }
+
+            //initializes array to use when checking player turns
+            function initializeTurnArray() {
+                turnTemp =[];
+                for (var i=0; i<internalSequence.length; i++) {
+                    turnTemp.push(internalSequence[i]);
+                }
+            }
+
+            /*
+                some frontend to show the quarterclicked
+            */
+            function showQuarterClick(number) {
+                if (number===0) {
+                    $("#quarter1").css('background-color', '#3bf21f');
+                    audio1.play();
+                    myTimeout1 = setTimeout(function() {
+                        $("#quarter1").css('background-color', '#529947');
+                    },200)
+                }
+                if (number===1) {
+                    $("#quarter2").css('background-color', '#ea2a2a');
+                    audio2.play();
+                    myTimeout2 = setTimeout(function() {
+                        $("#quarter2").css('background-color', '#a83c3c');
+
+                    },200)
+                }
+                if (number===2) {
+                    $("#quarter3").css('background-color', '#faff49');
+                    audio3.play();
+                    myTimeout3 = setTimeout(function() {
+                        $("#quarter3").css('background-color', '#a7aa3d');
+
+                    },200)
+                }
+                if (number===3) {
+                    $("#quarter4").css('background-color', '#3d8aff');
+                    audio4.play();
+                    myTimeout4 = setTimeout(function() {
+                        $("#quarter4").css('background-color', '#3b567f');
+
+                    },200)
+                }
+            }
+
+            //adds random number to sequence
+            function addToSequence() {
+
+                //choose colors
+                var randomNum = Math.floor(Math.random() * 4);
+                internalSequence.push(randomNum);
+            }
+
+            //plays sequence
+            function playSequence() {
+                updateCount();
+                var playTimer =900;
+                var waitBetweenPlays = 1100;
+                //make game faster
+                if (internalSequence.length >=5 && internalSequence.length <=8) {
+                    playTimer =700;
+                    waitBetweenPlays=900;
+                }  else if (internalSequence.length >=9 && internalSequence.length <=12) {
+                    playTimer =500;
+                    waitBetweenPlays=700;
+                } else if (internalSequence.length >=13) {
+                    playTimer =350;
+                    waitBetweenPlays=500;
+                } 
+                
+                var tempSequence =[];
+                var timeToStopInterval = internalSequence.length * waitBetweenPlays;
+
+                //copy internal sequence
+                for (var i=0; i<internalSequence.length; i++) {
+                    tempSequence.push(internalSequence[i]);
+                }
+
+                interval= setInterval(function() {
+                    activateColor(tempSequence[0],playTimer);
+                    tempSequence.shift();
+                }, waitBetweenPlays);
+
+                myTimeout1 =setTimeout(function() {
+                    clearInterval(interval); 
+                    playerTurn =true;
+                }, timeToStopInterval);
+
+            }
+
+            function activateColor(colorIndex, playTimer) {
+                if (colorIndex===0) {
+                    $("#quarter1").css('background-color', '#3bf21f');
+                    audio1.play();
+                    myTimeout2 =setTimeout(function() {
+                        $("#quarter1").css('background-color', '#529947');
+                        audio1.pause();
+                        audio1.currentTime=0;
+                    },playTimer);
+                } else if (colorIndex===1) {
+                    $("#quarter2").css('background-color', '#ea2a2a');
+                    audio2.play();
+                    myTimeout3=setTimeout(function() {
+                        $("#quarter2").css('background-color', '#a83c3c');
+                        audio2.pause();
+                        audio2.currentTime=0;
+                    },playTimer);
+                } else if (colorIndex===2) {
+                    $("#quarter3").css('background-color', '#faff49');
+                    audio3.play();
+                    myTimeout4 =setTimeout(function() {
+                        $("#quarter3").css('background-color', '#a7aa3d');
+                        audio3.pause();
+                        audio3.currentTime=0;
+                    },playTimer);
+                } else {
+                    $("#quarter4").css('background-color', '#3d8aff');
+                    audio4.play();
+                    myTimeout5 =setTimeout(function() {
+                        $("#quarter4").css('background-color', '#3b567f');
+                        audio4.pause();
+                        audio4.currentTime=0;
+                    },playTimer);
+                }
+            }
+
+        </script>
+
+
+    </body>
+</html>
