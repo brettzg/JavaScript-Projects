@@ -1,0 +1,426 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+        <meta name="description" content="">
+        <meta name="author" content="">
+        <link rel="icon" href="">
+
+        <title>Starter Template for Bootstrap</title>
+
+        <!-- Bootstrap core CSS -->
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/css/bootstrap.min.css" integrity="sha384-PsH8R72JQ3SOdhVi3uxftmaW6Vc51MKb0q5P2rRUpPvrszuE4W1povHYgTpBfshb" crossorigin="anonymous">
+
+        <link rel= stylesheet href = "style.css">
+    </head>
+
+
+    <body>
+
+        <div class="container">
+            <div id ="calc-border">
+                <h4 id="name-title" class="text-center">Brett Goldfine</h4>
+                <p id ="app-title" class="text-center">Electronic Calculator</p>
+                <div id= num-display-div>
+                    <label id="num-display">0</label>
+                    <label id ="internal-func-display"></label>
+                </div>
+
+                <button id ="AC-button"class="custom-button light-blue-button">AC</button> <button id ="CE-button" class="custom-button light-blue-button">CE</button> <button id ="divide-button" class="custom-button">÷</button><button id ="times-button" class="custom-button">x</button><br>
+
+                <button id ="7-button" class="custom-button">7</button> <button id ="8-button" class="custom-button">8</button> <button id ="9-button" class="custom-button">9</button><button id ="minus-button" class="custom-button">-</button> <br>
+
+                <button id ="4-button" class="custom-button">4</button> <button id ="5-button" class="custom-button">5</button> <button id ="6-button" class="custom-button">6</button><button id ="plus-button" class="custom-button">+</button> <br>
+
+                <button id ="3-button" class="custom-button">3</button> <button id ="2-button" class="custom-button">2</button> <button id ="1-button" class="custom-button">1</button><br>
+
+                <button id ="zero-button" class="custom-button">0</button> <button id ="dot-button" class="custom-button">.</button> <span id="plus-button-span"><button id="equals-button" class="custom-button">=</button></span>
+
+            </div>
+
+
+
+
+        </div>
+        <!-- /.container -->
+
+
+        <!-- Bootstrap core JavaScript
+================================================== -->
+        <!-- Placed at the end of the document so the pages load faster -->
+        <script src="jquery-3.2.1.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.3/umd/popper.min.js" integrity="sha384-vFJXuSJphROIrBnz7yo7oB41mKfc8JzQZiCq4NCceLEaO4IHwicKwpJf9c9IpFgh" crossorigin="anonymous"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/js/bootstrap.min.js" integrity="sha384-alpBpkh1PFOepccYVYDB4do5UnbKysX5WZXm3XxPqe5iKTfUKjNkCk9SaVuEZflJ" crossorigin="anonymous"></script>
+
+        <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
+        <script>
+            (function() {
+                'use strict'
+
+                if (navigator.userAgent.match(/IEMobile\/10\.0/)) {
+                    var msViewportStyle = document.createElement('style')
+                    msViewportStyle.appendChild(
+                        document.createTextNode(
+                            '@-ms-viewport{width:auto!important}'
+                        )
+                    )
+                    document.head.appendChild(msViewportStyle)
+                }
+
+            }())
+        </script>
+
+        <script>
+            var internalFunction ='';
+
+            $( "#zero-button" ).click(function() {
+                if ($("#num-display").text()==='0') {
+                    $("#num-display").text('0');
+                } else {
+                    if (isOperator(internalFunction[internalFunction.length -1])) {
+                        $("#num-display").text('0');
+                    } else {
+                        $("#num-display").append('0');
+                    }
+                }
+                internalFunction+='0';
+                $("#internal-func-display").text(internalFunction);
+            });
+            $( "#1-button" ).click(function() {
+                if ($("#num-display").text()==='0') {
+                    $("#num-display").text('1');
+                } else {
+                    if (isOperator(internalFunction[internalFunction.length -1])) {
+                        $("#num-display").text('1');
+                    } else {
+                        $("#num-display").append('1');
+                    }
+                }
+                internalFunction+='1';
+                $("#internal-func-display").text(internalFunction);
+            });
+
+            $( "#2-button" ).click(function() {
+                if ($("#num-display").text()==='0') {
+                    $("#num-display").text('2');
+                } else {
+                    if (isOperator(internalFunction[internalFunction.length -1])) {
+                        $("#num-display").text('2');
+                    } else {
+                        $("#num-display").append('2');
+                    }
+                }
+                internalFunction+='2';
+                $("#internal-func-display").text(internalFunction);
+            });
+
+            $( "#3-button" ).click(function() {
+                if ($("#num-display").text()==='0') {
+                    $("#num-display").text('3');
+                } else {
+                    if (isOperator(internalFunction[internalFunction.length -1])) {
+                        $("#num-display").text('3');
+                    } else {
+                        $("#num-display").append('3');
+                    }
+                }
+                internalFunction+='3';
+                $("#internal-func-display").text(internalFunction);
+            });
+
+            $( "#4-button" ).click(function() {
+                if ($("#num-display").text()==='0') {
+                    $("#num-display").text('4');
+                } else {
+                    if (isOperator(internalFunction[internalFunction.length -1])) {
+                        $("#num-display").text('4');
+                    } else {
+                        $("#num-display").append('4');
+                    }
+                }
+                internalFunction+='4';
+                $("#internal-func-display").text(internalFunction);
+            });
+
+            $( "#5-button" ).click(function() {
+                if ($("#num-display").text()==='0') {
+                    $("#num-display").text('5');
+                } else {
+                    if (isOperator(internalFunction[internalFunction.length -1])) {
+                        $("#num-display").text('5');
+                    } else {
+                        $("#num-display").append('5');
+                    }
+                }
+                internalFunction+='5';
+                $("#internal-func-display").text(internalFunction);
+            });
+
+            $( "#6-button" ).click(function() {
+                if ($("#num-display").text()==='0') {
+                    $("#num-display").text('6');
+                } else {
+                    if (isOperator(internalFunction[internalFunction.length -1])) {
+                        $("#num-display").text('6');
+                    } else {
+                        $("#num-display").append('6');
+                    }
+                }
+                internalFunction+='6';
+                $("#internal-func-display").text(internalFunction);
+            });
+
+            $( "#7-button" ).click(function() {
+                if ($("#num-display").text()==='0') {
+                    $("#num-display").text('7');
+                } else {
+                    if (isOperator(internalFunction[internalFunction.length -1])) {
+                        $("#num-display").text('7');
+                    } else {
+                        $("#num-display").append('7');
+                    }
+                }
+                internalFunction+='7';
+                $("#internal-func-display").text(internalFunction);
+            });
+
+            $( "#8-button" ).click(function() {
+                if ($("#num-display").text()==='0') {
+                    $("#num-display").text('8');
+                } else {
+                    if (isOperator(internalFunction[internalFunction.length -1])) {
+                        $("#num-display").text('8');
+                    } else {
+                        $("#num-display").append('8');
+                    }
+                }
+                internalFunction+='8';
+                $("#internal-func-display").text(internalFunction);
+            });
+
+            $( "#9-button" ).click(function() {
+                if ($("#num-display").text()==='0') {
+                    $("#num-display").text('9');
+                } else {
+                    if (isOperator(internalFunction[internalFunction.length -1])) {
+                        $("#num-display").text('9');
+                    } else {
+                        $("#num-display").append('9');
+                    }
+                }
+                internalFunction+='9';
+                $("#internal-func-display").text(internalFunction);
+            });
+
+            $( "#dot-button" ).click(function() {
+                if ($("#num-display").text()==='0') {
+                    $("#num-display").text('0.');
+                    internalFunction +='0.';
+                } else if ($("#num-display").text().includes(".")){
+
+                } else {
+                    if (isNaN(internalFunction[internalFunction.length -1])) {
+                        $("#num-display").text('0.')
+                        internalFunction += '0.';
+                        $("#internal-func-display").text(internalFunction);
+                    } else {
+                        $('#num-display').append('.');
+                        internalFunction +='.';
+                        $("#internal-func-display").text(internalFunction);
+                    }
+                }
+            });
+
+            $( "#AC-button" ).click(function() {
+                $("#num-display").text('0');
+                internalFunction ="";
+                $("#internal-func-display").text(internalFunction);
+            });
+
+            $('#CE-button').click(function() {
+                //remove last num if it is an operator
+                if (internalFunction[internalFunction.length -1]===('+') || internalFunction[internalFunction.length -1]===('-') || internalFunction[internalFunction.length -1]===('x') || internalFunction[internalFunction.length -1]===('/')) {
+                    internalFunction = internalFunction.substring(0, internalFunction.length -1);
+                }
+
+                var doneClearing = false;
+                while(doneClearing===false) {
+                    var internalFunctionLength = internalFunction.length;
+                    if (!isNaN(internalFunction[internalFunctionLength-1])) {
+                        internalFunction = internalFunction.substring(0,internalFunctionLength-1);    
+                    } else {
+                        doneClearing=true;
+                    }
+                    $("#internal-func-display").text(internalFunction);
+                    $("#num-display").text('0');
+                }
+
+            });
+
+            //function buttons
+            $('#plus-button').click(function() {
+                if (internalFunction.length ===0) {
+                    internalFunction = "0+";
+                }
+                else if (isNaN(internalFunction[internalFunction.length -1])) {
+                    internalFunction = internalFunction.substring(0,internalFunction.length -1);
+                    internalFunction += '+';
+                } else {
+                    internalFunction +='+';
+                }
+                $("#internal-func-display").text(internalFunction);
+            });
+
+            $('#minus-button').click(function() {
+                if (internalFunction.length ===0) {
+                    internalFunction = "0-";
+                } else if (isNaN(internalFunction[internalFunction.length -1])) {
+                    internalFunction = internalFunction.substring(0,internalFunction.length -1);
+                    internalFunction += '-';
+                } else {
+                    internalFunction +='-';
+                }
+                $("#internal-func-display").text(internalFunction);
+            });
+
+            $('#times-button').click(function() {
+                if (internalFunction.length ===0) {
+                    internalFunction = "0x";
+                } else if (isNaN(internalFunction[internalFunction.length -1])) {
+                    internalFunction = internalFunction.substring(0,internalFunction.length -1);
+                    internalFunction += 'x';
+                } else {
+                    internalFunction +='x';
+                }
+                $("#internal-func-display").text(internalFunction);
+            });
+
+            $('#divide-button').click(function() {
+                if (internalFunction.length ===0) {
+                    internalFunction = "0/";
+                } else if (isNaN(internalFunction[internalFunction.length -1])) {
+                    internalFunction = internalFunction.substring(0,internalFunction.length -1);
+                    internalFunction += '/';
+                } else {
+                    internalFunction +='/';
+                }
+                $("#internal-func-display").text(internalFunction);
+            });
+
+            $('#equals-button').click(function() {
+
+                if (isNaN(internalFunction[internalFunction.length-1]) || internalFunction.length ===0) {
+                    //do nothing if last char in operation is NaN or internal function is empty
+                } else {
+                    var done =false;
+                    //* and / by operators
+                    while(done===false) {
+                        for (var i=0; i<internalFunction.length; i++) {
+                            if (internalFunction[i]==='x') {
+                                performCalc(i,'x');
+                                break;
+                            } else if(internalFunction[i]==='/') {
+                                performCalc(i, '/');
+                                break;
+                            } else if (i===internalFunction.length -1) {
+                                done =true;
+                            }
+                        }
+                    }
+                    done = false;
+                    while(done===false) {
+                        for (var i=0; i<internalFunction.length; i++) {
+                            if (internalFunction[i]==='+') {
+                                performCalc(i,'+');
+                                break;
+                            } else if(internalFunction[i]==='-') {
+                                    if (i===0) {
+                                        
+                                    } else {
+                                        performCalc(i, '-');
+                                        break;
+                                    }
+                            } else if (i===internalFunction.length -1) {
+                                done =true;
+                            }
+                        }
+                    }
+                    $("#internal-func-display").append('='+internalFunction);
+                    $("#num-display").text(internalFunction);
+                    if (internalFunction==='69') {
+                        $("#num-display").text("Nice job!");
+                    }
+                }
+
+            });
+
+            function performCalc(i,operator) {
+
+                //lhs
+                var lhs = "";
+                var lhsIndex=-1;
+                for (var j=i-1; j>=0; j--) {
+                    if (internalFunction[j]==='x' || internalFunction[j]==='/' || internalFunction[j] ==='-' || internalFunction[j]==='+') {
+                        if (j===0 && internalFunction[j]==='-') {
+                            lhs ='-' + lhs;
+                        }
+                        lhsIndex = j+1;
+                        break;
+                    } else {
+                        lhs = internalFunction[j] + lhs;
+                        lhsIndex =j;
+                    }
+                }
+                //rhs
+                var rhs=""
+                var rhsIndex=-1;
+                for (var k=i+1; k<internalFunction.length; k++) {
+                    if (internalFunction[k]==='x' || internalFunction[k]==='/' || internalFunction[k] ==='-' || internalFunction[k]==='+') {
+                        rhsIndex = k-1;
+                        break;
+                    } else {
+                        rhs = rhs + internalFunction[k];
+                        rhsIndex=k;
+                    }
+                }
+                //parse float or int depending on each side of equation
+                if (rhs.includes('.') || lhs.includes('.')) {
+                    lhs = parseFloat(lhs);
+                    rhs = parseFloat(rhs);
+                } else {
+                    lhs = parseInt(lhs);
+                    rhs = parseInt(rhs);  
+                }
+                              
+                var num;
+
+                if (operator ==='+') {
+                    num = lhs +rhs;
+                } else if (operator === '-') {
+                    num = lhs-rhs;
+                } else if (operator ==='/') {
+                    num = lhs/rhs;
+                } else if (operator ==='x') {
+                    num = lhs *rhs;
+                }   
+                
+                if(internalFunction[0]==='-') {
+                    internalFunction = num + internalFunction.substring(rhsIndex+1);
+                } else {
+                    internalFunction = internalFunction.substring(0,lhsIndex) + num + internalFunction.substring(rhsIndex+1);
+                }
+                
+            }
+            
+            function isOperator(char) {
+                if (char==='+' || char==='-' || char==='x' || char==="/") {
+                    return true;
+                } else {
+                    return false;
+                }
+            }
+        </script>
+
+    </body>
+</html>
