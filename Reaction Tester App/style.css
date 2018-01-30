@@ -1,0 +1,26 @@
+            #shape {
+                
+                height: 100px;
+                width: 100px;
+                background-color: blue;
+                position: relative;
+                
+            }
+            
+            #time-indicator {
+                
+                font-weight: bold;
+                
+            }
+        
+            body {
+            
+                font-family: sans-serif;
+                
+            }
+
+            .bold {
+                
+                font-weight: bold;
+                
+            }   
