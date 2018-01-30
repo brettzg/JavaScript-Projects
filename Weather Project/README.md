@@ -4,7 +4,7 @@ This project is a weather application that shows the user their location, gives 
 
 ## Motivation
 
-I completed this project to practice my coding skills, and completing the user stories specified in Free Code Camp.
+I completed this project to practice my coding skills and to complete the user stories specified in Free Code Camp.
 
 ## API Reference
 
