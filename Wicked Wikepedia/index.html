@@ -1,0 +1,236 @@
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+        <meta name="description" content="">
+        <meta name="author" content="">
+        <link rel="icon" href="">
+
+        <title>Wicked Wikipedia App</title>
+
+        <!-- Bootstrap core CSS -->
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/css/bootstrap.min.css" integrity="sha384-PsH8R72JQ3SOdhVi3uxftmaW6Vc51MKb0q5P2rRUpPvrszuE4W1povHYgTpBfshb" crossorigin="anonymous">
+        <link rel="stylesheet" href="style.css">
+
+
+
+    </head>
+
+
+    <body>
+
+        <div class="container">
+            <div id ="search-box" class="text-center">
+                <form id="search-form">
+                    <h4 id='random-article-button'>Click Here for a Random Article</h4>
+                    <span id ="search-icon"><i class="fa fa-search fa-4x" aria-hidden="true"></i></span>
+                    <div id="search-full-textbox"><input id ="search-textbox" type="text" placeholder="&#xf002; Search..."><span id ="search-x"><i class="fa fa-times fa-2x" aria-hidden="true"></i></span></div>
+                    <br>
+                    <p id="click-phrase">Click Icon to Search</p>
+                </form>
+            </div>
+            <a href= "" target ="_blank" id="result-box1" class="result-box">
+                <h3 id="title1">Error - Wikipedia Article Not Available</h3>
+                <p class="description" id="description1">Please Search Again for A Different Phrase</p>
+            </a>
+            <a href= "" target ="_blank" id="result-box2" class="result-box">
+                <h3 id="title2"></h3>
+                <p class="description" id="description2"></p>
+            </a>
+            <a href= "" target ="_blank" id="result-box3" class="result-box">
+                <h3 id="title3"></h3>
+                <p class="description" id="description3"></p>
+            </a>
+            <a href= "" target ="_blank" id="result-box4" class="result-box">
+                <h3 id="title4"></h3>
+                <p class="description" id="description4"></p>
+            </a>
+            <a href= "" target ="_blank" id="result-box5" class="result-box">
+                <h3 id="title5"></h3>
+                <p class="description" id="description5"></p>
+            </a>
+            <a href= "" target ="_blank" id="result-box6" class="result-box">
+                <h3 id="title6"></h3>
+                <p class="description" id="description6"></p>
+            </a>
+            <a href= "" target ="_blank" id="result-box7" class="result-box">
+                <h3 id="title7"></h3>
+                <p class="description" id="description7"></p>
+            </a>
+            <a href= "" target ="_blank" id="result-box8" class="result-box">
+                <h3 id="title8"></h3>
+                <p class="description" id="description8"></p>
+            </a>
+            <a href= "" target ="_blank" id="result-box9" class="result-box">
+                <h3 id="title9"></h3>
+                <p class="description" id="description9"></p>
+            </a>
+            <a href= "" target ="_blank" id="result-box10" class="result-box">
+                <h3 id="title10"></h3>
+                <p class="description" id="description10"></p>
+            </a>
+        </div>
+        <!-- /.container -->
+
+
+        <!-- Bootstrap core JavaScript
+================================================== -->
+        <!-- Placed at the end of the document so the pages load faster -->
+        <script src="/jquery-3.2.1.js" ></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.3/umd/popper.min.js" integrity="sha384-vFJXuSJphROIrBnz7yo7oB41mKfc8JzQZiCq4NCceLEaO4IHwicKwpJf9c9IpFgh" crossorigin="anonymous"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/js/bootstrap.min.js" integrity="sha384-alpBpkh1PFOepccYVYDB4do5UnbKysX5WZXm3XxPqe5iKTfUKjNkCk9SaVuEZflJ" crossorigin="anonymous"></script>
+        <script src="https://use.fontawesome.com/d8afb97ff9.js"></script>
+
+
+        <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
+        <script>
+            (function() {
+                'use strict'
+
+                if (navigator.userAgent.match(/IEMobile\/10\.0/)) {
+                    var msViewportStyle = document.createElement('style')
+                    msViewportStyle.appendChild(
+                        document.createTextNode(
+                            '@-ms-viewport{width:auto!important}'
+                        )
+                    )
+                    document.head.appendChild(msViewportStyle)
+                }
+
+            }())
+        </script>
+        <script>
+            var fadingIn=false;
+            //onload
+            $(document).ready(function () {
+                $("#search-full-textbox").hide();
+                $('.result-box').hide();
+
+            });
+
+            //onclick of random article button
+            $(document).on('click','#random-article-button', function() {
+                var win = window.open('https://en.wikipedia.org/wiki/Special:Random', '_blank');
+                if (win) {
+                    //Browser has allowed it to be opened
+                    win.focus();
+                }
+            });
+
+            //show textbox, largen it, and hide icon
+            $(document).on('click','#search-icon',function(){
+                $("#search-icon").hide();
+                $("#search-full-textbox").show();
+                $('#click-phrase').hide();
+                $('#random-article-button').hide();
+
+                $(function() {
+                    $("#search-textbox").animate({ width: '+=400' }, 'slow');
+                });
+            });
+
+            //shrink textbox and show icon on x-button
+            $(document).on('click','#search-x', function() {
+                if (fadingIn===false) {
+                    $(function() {
+                        $("#search-textbox").animate({ width: '-=400' }, 'slow');
+                        $('#search-textbox').val("");
+                        $("#search-box").animate({top: '50%'}, 'slow');
+                        $('.result-box').hide();
+                        $('#random-article-button').show();
+                    });
+                    window.setTimeout(function() {
+                        $("#search-icon").show();
+                        $('#search-full-textbox').hide();
+                        $('#click-phrase').show();
+                    },600);
+                }
+            });
+
+            //prevents page from reloading on submit of search form
+            $("#search-form").submit(function(e) {
+                e.preventDefault();
+            });
+
+            //action to take on press of enter button
+            $("#search-textbox").on('keydown', function (e) {
+                if (e.keyCode == 13) {
+
+                    var secondJSON = [];
+                    //move search bar to top of screen
+                    $("#search-box").animate({top: '10%'}, 'slow');
+
+                    fadingIn=true;
+                    //fade in the result boxes
+                    for (var i=0;i<=10;i++) {
+                        (function(ind) {
+                            setTimeout(function(){
+                                var currentResultBox = '#result-box' + ind;
+                                $(currentResultBox).fadeIn();
+                                if(ind===10) {
+                                    fadingIn=false;
+                                }
+                            }, 500 * ind);
+                        })(i);
+                    }
+
+                    //reset title, description, and src of result boxes
+                    for (var p=0; p<10; p++) {
+                        var titleCall = '#title' + (p+1);
+                        var descriptionCall = '#description' + (p+1);
+                        var resultBoxCall = '#result-box' + (p+1);
+                        $(titleCall).html('');
+                        $(descriptionCall).html('');
+                        $(resultBoxCall).attr("href", '');
+                    }
+
+
+
+                    var searchString = 'http://en.wikipedia.org/w/api.php?format=json&action=query&list=search&callback=?&srsearch=' + $(this).val();
+                    /*$.getJSON('https://en.wikipedia.org/w/api.php?action=query&list=search&srsearch=Albert%20Einstein&utf8=', function(json) {
+                       $('#title1') = json.query.search[0].title;
+                    });*/
+
+                    //okay for future refrence, to make this work. I added the callback=? which got rid of no-origin error
+                    //and i added format=json so it knows what to expect and took away &utf8= to get rid of MIME type restriction error
+                    $.getJSON(searchString, function(json) {
+                        //populate resultbox array
+                        for (var i =0;i<10; i++) {
+                            try {
+                                var title =json.query.search[i].title;
+                                var titleCall = '#title' + (i+1);
+                                $(titleCall).html(title);
+                                var secondJSONIndividual = 'https://en.wikipedia.org/w/api.php?action=opensearch&callback=?&limit=1&namespace=0&format=json&search=' + title;
+                                getSecondJSON(secondJSONIndividual, i);
+                            }
+
+                            catch (err){
+                                //if title not found, alert in boxes
+                                var titleCall = '#title' + (i+1);
+                                var descriptionCall = '#description' + (i+1);
+                                $(titleCall).html('Error - Wikipedia Article Not Available');
+                                $(descriptionCall).html('Please Search Again for A Different Phrase');
+                            }
+                        }
+
+
+                    });//getJson1
+
+                }
+            });
+
+            function getSecondJSON(jsonString, num) {
+                $.getJSON(jsonString, function(json2) {
+                    var descriptionCall = '#description' + (num+1);
+                    var description = json2[2][0];
+                    $(descriptionCall).html(description);
+
+                    var resultBoxCall = '#result-box' + (num + 1);
+                    var link = json2[3][0];
+                    $(resultBoxCall).attr("href", link);
+                });                  
+            }
+
+        </script>
+    </body>
+</html>
