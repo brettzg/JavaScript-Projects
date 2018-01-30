@@ -1,0 +1,146 @@
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+        <meta name="description" content="">
+        <meta name="author" content="">
+        <link rel="icon" href="">
+
+        <title>Quote Machine</title>
+
+        <!-- Bootstrap core CSS -->
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/css/bootstrap.min.css" integrity="sha384-PsH8R72JQ3SOdhVi3uxftmaW6Vc51MKb0q5P2rRUpPvrszuE4W1povHYgTpBfshb" crossorigin="anonymous">
+
+        <style type="text/css">
+            .tweet-button {
+                display: inline-block;
+                width: 55px;
+                height: 21px;
+                background-image: url(http://platform.twitter.com/widgets/images/tweet.dfbf1dd98bad9f5b5addd80494650dca.png);
+                background-position: 0 0;
+            }
+            .tweet-button:hover {
+                background-position: 0 -21px;
+            }
+        </style>
+    </head>
+
+    <body>
+
+        <div class="container">
+            <br>
+            <h1 class= "text-center">Random Quote Machine</h1>
+            <br>
+            <div class="jumbotron text-center">
+                <h2 id ="quote-display" class="text-center">Random Text</h2>
+                <br>
+                <h4 id = "quote-author" class="text-center"><i>AuthorName</i></h4>
+            </div>
+
+            <div class= "text-center"><button id="quote-button">New Quote</button></div>
+
+            <br>
+
+            <div class="text-center"><div id="tweetBtn" class ="text-center">
+                <a class="twitter-share-button" href="http://twitter.com/share" data-url="" data-text="REPLACEME">Tweet</a>
+                <script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0];if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src="//platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter-wjs");</script>
+            </div></div>
+
+
+
+        </div>
+        <!-- /.container -->
+
+
+        <!-- Bootstrap core JavaScript
+================================================== -->
+        <!-- Placed at the end of the document so the pages load faster -->
+        <script src ="jquery-3.2.1.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.3/umd/popper.min.js" integrity="sha384-vFJXuSJphROIrBnz7yo7oB41mKfc8JzQZiCq4NCceLEaO4IHwicKwpJf9c9IpFgh" crossorigin="anonymous"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/js/bootstrap.min.js" integrity="sha384-alpBpkh1PFOepccYVYDB4do5UnbKysX5WZXm3XxPqe5iKTfUKjNkCk9SaVuEZflJ" crossorigin="anonymous"></script>
+
+        <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
+        <script>
+            (function() {
+                'use strict'
+
+                if (navigator.userAgent.match(/IEMobile\/10\.0/)) {
+                    var msViewportStyle = document.createElement('style')
+                    msViewportStyle.appendChild(
+                        document.createTextNode(
+                            '@-ms-viewport{width:auto!important}'
+                        )
+                    )
+                    document.head.appendChild(msViewportStyle)
+                }
+
+            }())
+        </script>
+        <script type="text/javascript">
+
+            $(document).ready(function () {
+                
+                $.getJSON("http://quotesondesign.com/wp-json/posts?filter[orderby]=rand&filter[posts_per_page]=1", function(json) {
+
+                    $("#quote-display").html(json[0].content);
+                    var authorHTML = "<i>" + json[0].title + "</i>";
+                    $("#quote-author").html(authorHTML);
+                    var contentHTML = $("#quote-display").html();
+                    updateTweet(contentHTML, authorHTML);
+                });
+
+            });
+
+            $('#quote-button').on('click', function(e) {
+
+                $.ajax( {
+                    url: 'http://quotesondesign.com/wp-json/posts?filter[orderby]=rand&filter[posts_per_page]=1',
+                    success: function(data) {
+                        var post = data.shift(); // The data is an array of posts. Grab the first one.
+                        var authorHTML = "<i>" + post.title + "</i>";
+
+                        $('#quote-author').html(authorHTML);
+                        $('#quote-display').html(post.content);
+                        var contentHTML = $("#quote-display").html();
+
+                        updateTweet(contentHTML, authorHTML);
+
+                        // If the Source is available, use it. Otherwise hide it.
+                        if (typeof post.custom_meta !== 'undefined' && typeof post.custom_meta.Source !== 'undefined') {
+                            $('#quote-source').html('Source:' + post.custom_meta.Source);
+                        } else {
+                            $('#quote-source').text('');
+                        }
+                    },
+                    cache: false
+                });
+
+            });
+
+            function updateTweet(quote, author) {
+                // Remove existing iframe
+                $('#tweetBtn iframe').remove();
+                
+                //get quote text ready
+                quote = quote.substring(3);
+                quote = quote.substring(0, quote.length -5);
+                author = author.substring(3);
+                author = author.substring(0,author.length-4);
+                quote = quote + "-" + author;
+                
+                // Generate new markup
+                var tweetBtn = $('<a></a>')
+                .addClass('twitter-share-button')
+                .attr('href', '')
+                .attr('data-url', '')
+                .attr('data-text', quote);
+                $('#tweetBtn').replaceWith(tweetBtn);
+                twttr.widgets.load();
+
+            }
+        </script>
+
+
+
+    </body>
+</html>
