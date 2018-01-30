@@ -1,0 +1,97 @@
+body {
+    background-color: black;
+}
+
+.container {
+    padding-top: 50px;
+}
+
+a:hover {
+    color: gray;
+}
+
+#twitch-header {
+    padding-top: 10px;
+    height: 80px;
+    width: 81%;;
+    background-color: ghostwhite;
+    color: rosybrown;
+    font-family: Impact, Charcoal, sans-serif;
+    position: relative;
+    margin: 0 auto;
+    text-align: center;
+    border: 3px solid brown;
+}
+
+.vertical-align {
+    display: flex;
+    align-items: center;
+}
+
+.btn-group {
+    position: relative;
+    height: 60px;
+    width: 81%;
+    outline: 0;
+    margin: 2px auto;
+    border: 1px solid white;
+}
+
+.btn-group:focus {
+    outline: 0;
+}
+.btn:hover {
+    color: white;
+}
+
+.online-status-button {
+    color: white;
+    width: 100%;
+    border: 1px black solid;
+}
+
+.twitch-player-board {
+    height: 100px;
+    width: 81%;
+    position: relative;
+    background-color: lightgreen;
+    margin: 5px auto;
+    border: 5px green solid;
+    font-size: 18px;
+}
+
+.twitch-player-icon {
+    background-color: orange;
+    width: 70px;
+    height: 70px;
+    border-radius: 50%;
+    
+}
+
+.twitch-player-name {
+    font-weight: bold;
+    color: black;
+
+}
+
+.twitch-player-description {
+    margin: auto;
+    margin-left: 10px;
+
+}
+
+.hideOnSmall {
+   display:block;
+}
+
+@media screen and (max-width: 767px){ 
+  .hideOnSmall{
+    display:none;
+  }
+}
+
+@media screen and (min-width: 768px){ 
+  .hideOnSmall{
+    display:block;
+  }
+}

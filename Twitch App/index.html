@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+        <meta name="description" content="">
+        <meta name="author" content="">
+        <link rel="icon" href="">
+
+        <title>Twitch Check</title>
+
+        <!-- Bootstrap core CSS -->
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/css/bootstrap.min.css" integrity="sha384-PsH8R72JQ3SOdhVi3uxftmaW6Vc51MKb0q5P2rRUpPvrszuE4W1povHYgTpBfshb" crossorigin="anonymous">
+        <link rel="stylesheet" href="style.css">
+
+    </head>
+
+
+    <body>
+
+        <div class="container">
+            <div id ="twitch-header"><h1>Twitch Streamers</h1></div>
+            <div class="text-center"><div class="btn-group text-center">
+                <button id="all-button"class="online-status-button btn btn-warning">All</button>
+                <button id="online-button"class="online-status-button btn btn-warning">Online</button>
+                <button id="offline-button"class="online-status-button btn btn-warning">Offline</button>
+                </div>
+            </div>
+            <div id="twitch-player-board-1" class="twitch-player-board row vertical-align">
+                    <div class="col-3 col-md-2"><img id="img-1" src=""class="twitch-player-icon"></div>
+                    <div class="col-9 col-md-3"><a id="name-1"class="twitch-player-name col-xs-3 text-left" target="_blank">Player Name</a></div>
+                    <div class="col-md-7 hideOnSmall"><p id="info-1"class="twitch-player-description col-xs-6 text-left">Game Description</p></div>
+            </div>
+            <div id="twitch-player-board-2" class="twitch-player-board row vertical-align">
+                    <div class="col-3 col-md-2"><img id="img-2" src=""class="twitch-player-icon"></div>
+                    <div class="col-9 col-md-3"><a id="name-2"class="twitch-player-name col-xs-3 text-left" target="_blank">Player Name</a></div>
+                    <div class="col-md-7 hideOnSmall"><p id="info-2"class="twitch-player-description col-xs-6 text-left">Game Description</p></div>
+            </div>
+            <div id="twitch-player-board-3" class="twitch-player-board row vertical-align">
+                    <div class="col-3 col-md-2"><img id="img-3" src=""class="twitch-player-icon"></div>
+                    <div class="col-9 col-md-3"><a id="name-3"class="twitch-player-name col-xs-3 text-left" target="_blank">Player Name</a></div>
+                    <div class="col-md-7 hideOnSmall"><p id="info-3"class="twitch-player-description col-xs-6 text-left">Game Description</p></div>
+            </div>
+            <div id="twitch-player-board-4" class="twitch-player-board row vertical-align">
+                    <div class="col-3 col-md-2"><img id="img-4" src=""class="twitch-player-icon"></div>
+                    <div class="col-9 col-md-3"><a id="name-4"class="twitch-player-name col-xs-3 text-left" target="_blank">Player Name</a></div>
+                    <div class="col-md-7 hideOnSmall"><p id="info-4"class="twitch-player-description col-xs-6 text-left">Game Description</p></div>
+            </div>
+
+
+
+        </div>
+        <!-- /.container -->
+
+
+        <!-- Bootstrap core JavaScript
+================================================== -->
+        <!-- Placed at the end of the document so the pages load faster -->
+        <script src="jquery-3.2.1.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.3/umd/popper.min.js" integrity="sha384-vFJXuSJphROIrBnz7yo7oB41mKfc8JzQZiCq4NCceLEaO4IHwicKwpJf9c9IpFgh" crossorigin="anonymous"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/js/bootstrap.min.js" integrity="sha384-alpBpkh1PFOepccYVYDB4do5UnbKysX5WZXm3XxPqe5iKTfUKjNkCk9SaVuEZflJ" crossorigin="anonymous"></script>
+
+        <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
+        <script>
+            (function() {
+                'use strict'
+
+                if (navigator.userAgent.match(/IEMobile\/10\.0/)) {
+                    var msViewportStyle = document.createElement('style')
+                    msViewportStyle.appendChild(
+                        document.createTextNode(
+                            '@-ms-viewport{width:auto!important}'
+                        )
+                    )
+                    document.head.appendChild(msViewportStyle)
+                }
+
+            }())
+        </script>
+        <script>
+            var onlineStatus = [];
+            
+            $(document).ready(function() {
+                //onload
+                fillStreamInfo('freecodecamp',1);
+                fillStreamInfo('ESL_SC2',2);
+                fillStreamInfo('storbeck',3);
+                fillStreamInfo('habathcx',4);
+                $('#all-button').css('background-color','darkblue');
+
+            });
+
+            function fillStreamInfo(channelName, num) {
+                $.getJSON('https://wind-bow.gomix.me/twitch-api/channels/' + channelName +'?callback=?', function(json) {
+                    var profileIcon = json.logo;
+                    var name = json.display_name;
+                    var url = json.url;
+                    d = new Date();
+                    var imageCall = "#img-" + num;
+                    var nameCall = "#name-" + num;
+                    $(imageCall).attr("src", profileIcon + '?'+d.getTime());
+                    $(nameCall).text(name);
+                    $(nameCall).attr("href", url);
+                });
+
+                $.getJSON('https://wind-bow.gomix.me/twitch-api/streams/' + channelName + '?callback=?', function(json) {
+                    var infoCall = "#info-" + num;
+                    var playerBoardCall = '#twitch-player-board-' + num;
+                    if (json.stream === null) {
+                        $(infoCall).text('Offline');
+                        $(playerBoardCall).css('background-color', '#FFF')
+                        $(playerBoardCall).css('border-color', 'red')
+                        onlineStatus.push(['offline',num]);
+                    } else {
+                        var game = json.stream.game;
+                        var status =json.stream.channel.status;
+                        $(infoCall).text(game+ ": "+ status);
+                        onlineStatus.push(['online',num]);
+                    }
+                });
+            }
+
+            $( "#all-button" ).click(function() {
+                for (var i=1; i<=4;i++) {
+                    var selectTwitchBoard = "#twitch-player-board-" + i;
+                    $(selectTwitchBoard).show();
+                }
+                $('#all-button').css('background-color', 'darkblue');
+                $('#online-button').css('background-color', 'orange');
+                $('#offline-button').css('background-color', 'orange');
+            });
+            
+            $('#online-button').click(function() {
+                
+                for (var i=1; i<=4;i++) {
+                    var boardOnlineStatus = onlineStatus[i-1][0];
+                    var boardNum = onlineStatus[i-1][1];
+                    var selectTwitchBoard = "#twitch-player-board-" + boardNum;
+                    
+                    if(boardOnlineStatus==='online') {
+                        $(selectTwitchBoard).show();
+                        
+                    } else if (boardOnlineStatus==='offline') {
+                        $(selectTwitchBoard).hide();
+                    }  
+                }
+                
+                
+                $('#all-button').css('background-color', 'orange');
+                $('#online-button').css('background-color', 'darkblue');
+                $('#offline-button').css('background-color', 'orange');
+            });
+            
+            $('#offline-button').click(function() {
+                for (var i=1; i<=4;i++) {
+                    var boardOnlineStatus = onlineStatus[i-1][0];
+                    var boardNum = onlineStatus[i-1][1];
+                    var selectTwitchBoard = "#twitch-player-board-" + boardNum;
+                    
+                    if(boardOnlineStatus==='offline') {
+                        $(selectTwitchBoard).show();
+                        
+                    } else if (boardOnlineStatus==='online') {
+                        $(selectTwitchBoard).hide();
+                    }  
+                }
+                
+                $('#all-button').css('background-color', 'orange');
+                $('#online-button').css('background-color', 'orange');
+                $('#offline-button').css('background-color', 'darkblue');
+            });
+
+        </script>
+
+    </body>
+</html>
