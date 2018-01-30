@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+        <meta name="description" content="">
+        <meta name="author" content="">
+        <link rel="icon" href="">
+
+        <title>Local Weather App</title>
+
+        <!-- Bootstrap core CSS -->
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/css/bootstrap.min.css" integrity="sha384-PsH8R72JQ3SOdhVi3uxftmaW6Vc51MKb0q5P2rRUpPvrszuE4W1povHYgTpBfshb" crossorigin="anonymous">
+
+        <link rel="stylesheet" href="style.css">
+
+    </head>
+
+
+    <body>
+
+        <div id = "container-id" class="container">
+            <br>
+            <h1 class = "text-center header-text">Free Code Camp Zipline</h1>
+            <br>
+            <h2 class="text-center header-text">Local Weather App</h2>
+            <br>
+            <br>
+            <div class="row align-middle">
+                <div class="col-md-5"></div>
+                <div class = col-md-1>
+                    <img src="" id ="weather-icon" alt="weather icon">
+                </div>
+                <div class="col-md-2 vertical-align">
+                    <h2 id ="temperature-update" class="temp-text"></h2>
+                </div>
+            </div>
+            <br>
+            <br>
+            <div class= "row align-middle">
+                <div class="col-md-3"></div>
+                <div class="info-block col-md-3">
+                    <p id ="city-text" class="info-block-text"></p>
+                </div>
+                <div class="info-block col-md-2">
+                    <p id ="weather-text" class="info-block-text"></p>
+                </div>
+                <div class="info-block col-md-2">
+                    <p id="wind-text"class="info-block-text"></p>
+                </div>                
+            </div>
+            <br>
+            <br>
+            <div class="text-center">
+                <button id ="temp-button" type="button" class="btn btn-primary btn-lg" onclick = "changeTemp()">Change to Farenheit</button>
+            </div>
+
+        </div>
+        <!-- /.container -->
+
+
+        <!-- Bootstrap core JavaScript
+================================================== -->
+        <!-- Placed at the end of the document so the pages load faster -->
+        <script src="/jquery-3.2.1.js" ></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.3/umd/popper.min.js" integrity="sha384-vFJXuSJphROIrBnz7yo7oB41mKfc8JzQZiCq4NCceLEaO4IHwicKwpJf9c9IpFgh" crossorigin="anonymous"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/js/bootstrap.min.js" integrity="sha384-alpBpkh1PFOepccYVYDB4do5UnbKysX5WZXm3XxPqe5iKTfUKjNkCk9SaVuEZflJ" crossorigin="anonymous"></script>
+
+        <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
+        <script>
+            (function() {
+                'use strict'
+
+                if (navigator.userAgent.match(/IEMobile\/10\.0/)) {
+                    var msViewportStyle = document.createElement('style')
+                    msViewportStyle.appendChild(
+                        document.createTextNode(
+                            '@-ms-viewport{width:auto!important}'
+                        )
+                    )
+                    document.head.appendChild(msViewportStyle)
+                }
+
+            }())
+        </script>
+
+        <script>
+            //variables
+            var temp;
+            var inCelsius=true;
+            
+            $(document).ready(function () {
+
+                if (navigator.geolocation) {
+                    navigator.geolocation.getCurrentPosition(function(position) {
+
+                        var lati = position.coords.latitude;
+                        var long = position.coords.longitude; 
+
+                        var jsonString = "https://fcc-weather-api.glitch.me/api/current?lon=" + long + "&lat=" + lati;
+                        $.getJSON(jsonString, function(json) {
+
+                            //$("#weather-update").html(html);
+                            console.log(json.weather[0].icon);
+                            $("#weather-icon").attr("src",json.weather[0].icon);
+                            temp = json.main.temp;
+                            var tempString = temp.toFixed(1) + " &#8451";
+                            $("#temperature-update").html(tempString);
+                            
+                            var weather = json.weather[0].description;
+                            weather = weather.charAt(0).toUpperCase() + weather.slice(1);
+                            $("#weather-text").html(weather);
+                            
+                            var windDirection = json.wind.deg;
+                            var windDirectionName = "";
+                            function getWindDirection(deg) {
+                                if (deg >22.5 && deg<=67.5 ) {
+                                    return "NE";
+                                } else if (deg >67.5 && deg<=112.5) {
+                                    return "E";
+                                } else if (deg >112.5 && deg<=157.5 ) {
+                                    return "SE";
+                                } else if (deg >157.5 && deg<=202.5) {
+                                    return "S";
+                                } else if (deg >202.5 && deg<=247.5 ) {
+                                    return "SW";
+                                } else if (deg >247.5 && deg<=292.5) {
+                                    return "W";
+                                } else if (deg >292.5 && deg<=337.5 ) {
+                                    return "NW";
+                                } else {
+                                    return "N";
+                                }
+                            }
+                            
+                            windDirectionName = getWindDirection(windDirection);
+                            var windSpeed = json.wind.speed;
+                            var windText = windDirectionName + " " + windSpeed + " knots";
+                            $("#wind-text").html(windText);
+                            
+                            changeBackground();
+
+                            
+
+                        });
+
+                        var cityNameJSONString = "http://maps.googleapis.com/maps/api/geocode/json?latlng=" + lati + "," + long + "&sensor=true";
+
+                        $.getJSON(cityNameJSONString, function(json2) {
+                            var cityName = json2.results[0].address_components[2].short_name;
+                            var stateName = json2.results[0].address_components[4].long_name;
+                            var cityState = cityName + ", " + stateName;
+                            $("#city-text").html(cityState) 
+                        }); 
+                    });
+                }
+            });
+            
+            
+            function changeTemp() {
+                //change celsius to farenheit, always starts in celsius due to json
+                if (inCelsius) {
+                    temp *=9;
+                    temp /=5;
+                    temp += 32;
+                    $("#temperature-update").html(temp.toFixed(1)+ " &#8457");
+                    $("#temp-button").html("Change to Celsius");
+                    inCelsius = false;
+                    
+                } 
+                //change farenheit to celsius
+                else {
+                    console.log(temp);
+                    temp -=32;
+                    temp *=5;
+                    temp /=9;
+                    $("#temperature-update").html(temp.toFixed(1) + " &#8451");
+                    $("#temp-button").html("Change to Farenheit");
+                    inCelsius = true;
+                }
+            }
+            
+            //change background picture based on temperature
+            function changeBackground() {
+                if (temp < 0) {
+                    $("body").css("background: url(\"snowy.jpeg\") no-repeat center center fixed;");
+                } else if (temp >=0 && temp <10) {
+                    $("body").css("background: url(\"coolerweather.jpg\") no-repeat center center fixed;");
+                } else if (temp>=10 && temp<21.11) {
+                    $("body").css({"background": "url(\"/coolweather.jpeg\") no-repeat center center fixed"}); 
+                } else if (temp>=21.11 && temp<32.22) {
+                    $("body").css("background", "url(\"/sunnyDay.jpg\") no-repeat center center fixed;");
+                }else if (temp>=32.22) {
+                    $("body").css("background", "url(\"deserthot.jpeg\") no-repeat center center fixed;");
+                }
+                
+                $("body").css({"background-size": "cover"});
+                
+                
+            }
+
+
+        </script>
+
+    </body>
+</html>

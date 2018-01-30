@@ -1,0 +1,46 @@
+body {
+    background-color:darkgreen;
+    color: white;
+}
+
+#header {
+    text-align: center;
+    margin-top: 20px;
+    margin-bottom: 60px;
+}
+
+#clock-outline {
+    margin: auto;
+    width: 500px;
+    height: 500px;    
+    border: 1px solid orange;
+    text-align: center;
+    border-radius: 50%;
+}
+
+#break-time-setter {
+    display: inline-block;
+    margin-left: 20%;
+    text-align: center;
+}
+
+#session-time-setter {
+    display: inline-block;
+    margin-left: 20%;
+    margin-bottom: 100px;
+    text-align: center;
+}
+
+#state-name {
+    margin-top: 15%;
+    font-size: 40px;
+}
+
+#clock-time {
+    margin-top: 10%;
+    font-size: 60px;
+}
+
+.setters {
+    display: inline;
+}

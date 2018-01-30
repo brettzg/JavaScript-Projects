@@ -1,0 +1,76 @@
+body {
+    background: url("sunnyDay.jpg") no-repeat center center fixed;
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    -o-background-size: cover;
+    background-size: cover;
+}
+
+.vertical-align {
+    display: flex;
+    align-items: center;
+    text-align: center;
+}
+
+.info-block {
+    background-color: whitesmoke;
+    opacity: 0.7;
+    box-shadow: 0 0 3px black;
+    margin: 5px;
+    text-align: center
+}
+
+.info-block-text {
+    color: rosybrown;
+    font-weight: bold;
+    font-size: 20px;
+    position: relative;
+    top: 50%;
+    transform: translateY(-50%);
+}
+
+.header-text {
+    color: burlywood;
+    letter-spacing: 2px;
+    text-shadow: 0px 0px 6px rgba(255,255,255,0.7);
+
+}
+
+.temp-text {
+    color: white;
+    font-weight: 500px;
+    text-shadow: 0 0 3px black;
+
+}
+
+.button {
+   border-top: 1px solid #96d1f8;
+   background: #65a9d7;
+   background: -webkit-gradient(linear, left top, left bottom, from(#3e569c), to(#65a9d7));
+   background: -webkit-linear-gradient(top, #3e569c, #65a9d7);
+   background: -moz-linear-gradient(top, #3e569c, #65a9d7);
+   background: -ms-linear-gradient(top, #3e569c, #65a9d7);
+   background: -o-linear-gradient(top, #3e569c, #65a9d7);
+   padding: 5px 10px;
+   -webkit-border-radius: 8px;
+   -moz-border-radius: 8px;
+   border-radius: 8px;
+   -webkit-box-shadow: rgba(0,0,0,1) 0 1px 0;
+   -moz-box-shadow: rgba(0,0,0,1) 0 1px 0;
+   box-shadow: rgba(0,0,0,1) 0 1px 0;
+   text-shadow: rgba(0,0,0,.4) 0 1px 0;
+   color: white;
+   font-size: 14px;
+   font-family: Georgia, serif;
+   text-decoration: none;
+   vertical-align: middle;
+   }
+.button:hover {
+   border-top-color: #1d88cf;
+   background: #1d88cf;
+   color: #ccc;
+   }
+.button:active {
+   border-top-color: #1b435e;
+   background: #1b435e;
+   }
