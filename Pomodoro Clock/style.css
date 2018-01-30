@@ -1,0 +1,98 @@
+body {
+    background-color:dimgray;
+    color: white;
+    font-family: Optima, sans-serif;
+}
+
+#header {
+    text-align: center;
+    margin-top: 5%;
+    margin-bottom: 60px;
+    font-size: 80px;
+    font-family:  Apple Chancery, cursive;
+    text-shadow:
+    -1px -1px 0 silver,
+    1px -1px 0 silver,
+    -1px 1px 0 silver,
+    1px 1px 0 silver; 
+    -moz-box-shadow: 0 0 15px black;
+    -webkit-box-shadow: 0 0 15px black;
+    box-shadow: 0 0 15px black;
+}
+
+#clock-outline {
+    margin: auto;
+    width: 500px;
+    height: 500px;    
+    border: 6px solid orange;
+    text-align: center;
+    border-radius: 50%;
+    position: relative;
+    z-index: 3;
+    margin-bottom: 20px;
+}
+
+#cover-outline {
+    vertical-align: bottom;
+    position: absolute;
+    width: 98%;
+    height: 98%;
+    bottom: 0px;
+    margin-bottom: 1%;
+    margin-left: 1%;
+    z-index: 2;  
+    border-radius: 100%;
+}
+
+#break-time-setter {
+    display: inline-block;
+    margin-left: 20%;
+    text-align: center;
+    border: 4px solid #69f90e;
+    padding: 15px;
+    margin-top: 30px;
+}
+
+#break-plus:hover {
+    cursor: pointer;
+}
+
+#session-plus:hover {
+    cursor: pointer;
+}
+
+#break-minus:hover {
+    cursor: pointer;
+}
+
+#session-minus:hover {
+    cursor: pointer;
+}
+
+#session-time-setter {
+    display: inline-block;
+    margin-left: 20%;
+    margin-bottom: 60px;
+    text-align: center;
+    border: 4px solid #2caaae;
+    padding: 15px;
+    margin-top: 30px;
+}
+
+#state-name {
+    margin-top: 15%;
+    font-size: 40px;
+    z-index: 4;
+    position: relative;
+}
+
+#clock-time {
+    margin-top: 10%;
+    font-size: 60px;
+    z-index: 4;
+    position: relative;
+}
+
+.setters {
+    display: inline;
+}

@@ -1,0 +1,289 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+        <meta name="description" content="">
+        <meta name="author" content="">
+        <link rel="icon" href="">
+
+        <title>My Pomodoro Clock</title>
+
+        <!-- Bootstrap core CSS -->
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/css/bootstrap.min.css" integrity="sha384-PsH8R72JQ3SOdhVi3uxftmaW6Vc51MKb0q5P2rRUpPvrszuE4W1povHYgTpBfshb" crossorigin="anonymous">
+
+        <link rel ="stylesheet" href="style.css">
+
+
+
+    </head>
+
+
+    <body>
+
+        <div class="container">
+
+            <h1 id="header">My Own Pomodoro</h1>
+            <div id="setters-div">
+                <div id="break-time-setter">
+                    <h2>Break Length</h2>
+                    <h2 id="break-minus" class="setters">- </h2><h2 id="break-time" class="setters"> 5 </h2><h2 id="break-plus" class="setters"> + </h2>
+
+                </div>
+                <div id="session-time-setter">
+                    <h2>Session Length</h2>
+                    <span><h2 id="session-minus" class="setters"> - </h2><h2 id="session-time" class="setters"> 25 </h2><h2 id="session-plus" class="setters"> + </h2></span>        
+                </div>
+            </div>
+
+            <div id ="clock-outline">
+
+                <h1 id="state-name">Session</h1>
+                <br>
+                <h1 id="clock-time">25</h1>
+                <div id="cover-outline"></div>
+
+            </div>
+
+
+
+        </div>
+        <!-- /.container -->
+
+
+        <!-- Bootstrap core JavaScript
+================================================== -->
+        <!-- Placed at the end of the document so the pages load faster -->
+        <script src="jquery-3.2.1.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.3/umd/popper.min.js" integrity="sha384-vFJXuSJphROIrBnz7yo7oB41mKfc8JzQZiCq4NCceLEaO4IHwicKwpJf9c9IpFgh" crossorigin="anonymous"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/js/bootstrap.min.js" integrity="sha384-alpBpkh1PFOepccYVYDB4do5UnbKysX5WZXm3XxPqe5iKTfUKjNkCk9SaVuEZflJ" crossorigin="anonymous"></script>
+        <script src='https://cdn.rawgit.com/admsev/jquery-play-sound/master/jquery.playSound.js'></script>
+
+        <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
+        <script>
+            (function() {
+                'use strict'
+
+                if (navigator.userAgent.match(/IEMobile\/10\.0/)) {
+                    var msViewportStyle = document.createElement('style')
+                    msViewportStyle.appendChild(
+                        document.createTextNode(
+                            '@-ms-viewport{width:auto!important}'
+                        )
+                    )
+                    document.head.appendChild(msViewportStyle)
+                }
+
+            }())
+        </script>
+
+        <script>
+            var clockRunning =false;
+            var refreshIntervalId;
+            var sessionTimeOut;
+            var endTimeOut;
+
+            $("#break-minus").click(function() {
+                if (!clockRunning) {
+                    var breakTime = parseInt($("#break-time").text());
+                    if (breakTime===1) {
+
+                    } else {
+                        breakTime--;
+                        $("#break-time").text(breakTime);
+                    }
+                    if ($("#state-name").text() ==="Break!") {
+                        $("#clock-time").text(breakTime);
+                    }
+                }                  
+            });
+
+            $("#break-plus").click(function() {
+                if (!clockRunning) {
+                    var breakTime = parseInt($("#break-time").text());
+                    if (breakTime===99) {
+
+                    } else {
+                        breakTime++;
+                        $("#break-time").text(breakTime);
+                    }
+                    if ($("#state-name").text() ==="Break!") {
+                        $("#clock-time").text(breakTime);
+                    }
+                }                    
+            });
+
+            $("#session-minus").click(function() {
+                if (!clockRunning) {
+                    var sessionTime = parseInt($("#session-time").text());
+                    if (sessionTime===1) {
+
+                    } else {
+                        sessionTime--;
+                        $("#session-time").text(sessionTime);
+                        $("#clock-time").text(sessionTime);
+                        $("#state-name").text("Session");
+                    } 
+                }                  
+            });
+
+            $("#session-plus").click(function() {
+                if (!clockRunning) {
+                    var sessionTime = parseInt($("#session-time").text());
+                    if (sessionTime===99) {
+
+                    } else {
+                        sessionTime++;
+                        $("#session-time").text(sessionTime);
+                        $("#clock-time").text(sessionTime);
+                        $("#state-name").text("Session");
+                    } 
+                }                  
+            });
+
+            $("#clock-outline").click(function() {
+
+                if (clockRunning===false) {
+
+                    if ($("#clock-time").text().length <=2) {
+                        $("#clock-time").append(":00");
+                    }
+                    //get timeLeft
+                    var timeLeftInMilli = getTimeLeft();
+                    var breakTime = parseInt($("#break-time").text());
+                    var sessionTime = parseInt($("#session-time").text());
+                    var state = $("#state-name").text();
+                    refreshIntervalId =setInterval(changeTimeLeft, 1000);
+
+                    //when pomodoro ends
+                    sessionTimeOut = setTimeout(function(){ 
+                        if (state ==="Session") {
+                            $("#clock-time").text(breakTime + ":00");
+                            $("#state-name").text("Break!");
+                        } else {
+                            $("#clock-time").text(sessionTime + ":00");
+                            $("#state-name").text("Session");
+                        }
+                        $.playSound('/analog-watch-alarm_daniel-simion.mp3');
+                    }, timeLeftInMilli);
+
+                    clockRunning=true;
+                } else {
+                    clearInterval(refreshIntervalId);
+                    clearTimeout(sessionTimeOut);
+                    clockRunning =false;
+                    $.stopSound();
+                }
+
+
+            });
+
+            //changes time and updates fill
+            function changeTimeLeft() {
+                var clockText = $("#clock-time").text();
+                var newText ="";
+                var tenMinute;
+                var oneMinute;
+                var tenSecond;
+                var oneSecond;
+                var tempNum;
+                if (clockText.length ===5) {
+                    tenMinute = clockText[0];
+                    oneMinute=clockText[1];
+                    tenSecond=clockText[3];
+                    oneSecond=clockText[4];
+                } else {
+                    tenMinute="";
+                    oneMinute=clockText[0];
+                    tenSecond=clockText[2];
+                    oneSecond=clockText[3];
+                }
+
+                if (oneSecond==='0') {
+                    if (tenSecond==='0') {  
+                        if (oneMinute==='0') {
+                            //if ten/one second are zero and so is one minute
+                            if (tenMinute==="") {
+                                //if tenminute is done
+
+                            } else {
+                                //if still ten-minute left
+                                tempNum = parseInt(clockText[0]) -1;
+                                if (tempNum ===0) {
+                                    newText= "9:59";
+                                } else {
+                                    newText = tempNum + "9:59";
+                                }
+                            }   
+                        } else {
+                            //if ten-second is zero and onesecond is zero, but still at least 1 min
+                            tempNum = parseInt(clockText[clockText.length-4]) -1;
+                            newText = clockText.substring(0,clockText.length -4) + tempNum + ":59"; 
+                        }
+                    } else {
+                        tempNum = parseInt(clockText[clockText.length-2]) -1;
+                        newText = clockText.substring(0,clockText.length-2) + tempNum +"9";
+                    }                   
+                } else {
+                    //subtract by 1 if single second>0
+                    tempNum = parseInt(clockText[clockText.length-1]) -1;
+                    newText = clockText.substring(0,clockText.length-1) + tempNum;
+                }
+
+                $("#clock-time").text(newText);
+                updateFill();
+
+            }
+
+            //returns in milliseconds
+            function getTimeLeft() {
+                var clockText = $("#clock-time").text();
+                var tenMinute;
+                var oneMinute;
+                var tenSecond;
+                var oneSecond;
+                var timeLeft=0;
+                if (clockText.length ===5) {
+                    tenMinute = parseInt(clockText[0]);
+                    oneMinute=parseInt(clockText[1]);
+                    tenSecond=parseInt(clockText[3]);
+                    oneSecond=parseInt(clockText[4]);
+                } else {
+                    tenMinute="";
+                    oneMinute=parseInt(clockText[0]);
+                    tenSecond=parseInt(clockText[2]);
+                    oneSecond=parseInt(clockText[3]);
+                }
+
+                if (tenMinute==="") {
+                    timeLeft = oneSecond*1000 + tenSecond*10000 + oneMinute*60000;
+                }else {
+                    timeLeft = oneSecond*1000 + tenSecond*10000 + oneMinute*60000 + tenMinute*600000;
+                }
+                return timeLeft;
+            }
+            
+            function updateFill() {
+                var state = $("#state-name").text();
+                var totalTime;
+                var fillColor;
+                if (state==="Break!") {
+                    var breakTime = parseInt($("#break-time").text());
+                    totalTime = breakTime*60*1000;
+                    fillColor = "#69f90e";
+                } else {
+                    var sessionTime=parseInt($("#session-time").text());
+                    totalTime =sessionTime*60*1000;
+                    fillColor = "#2caaae";
+                }
+                console.log(fillColor);
+                var timeLeft= getTimeLeft();
+                var percentageFill = (totalTime-timeLeft)/totalTime*100 + '%';
+                $('#cover-outline').css({background: "linear-gradient(to top, " + fillColor + " "+percentageFill+",#696969 "+percentageFill+",#696969 100%)"});
+
+            }
+
+        </script>
+
+    </body>
+</html>
